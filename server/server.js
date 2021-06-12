@@ -4,6 +4,7 @@ const { dbURL } = require(`./config/config`);
 const routes = require('./routes/index.js');
 var bodyParser = require('body-parser');
 const session = require('express-session')
+var cors = require("cors");
 const app = express();
 
 Mongoose.connect(dbURL,
@@ -13,6 +14,7 @@ Mongoose.connect(dbURL,
   useCreateIndex:true
   });
   
+  app.use(cors());
   app.use(session({
      secret: 'ssshhhhh',
      resave:false,

@@ -1,0 +1,8 @@
+i {
+    position: absolute;
+   size: 15px;
+  }
+  i:hover {
+    color: #00fcb6;
+    cursor: pointer;
+  }
