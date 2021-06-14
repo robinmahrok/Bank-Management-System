@@ -73,7 +73,7 @@ export default function SignUp() {
   const handleOnChangeConfirmPassword = (e) => {
    // e.preventDefault();
 
-    if(e.target.value!=password)
+    if(e.target.value!==password)
     {
        seterror("Password and confirm password should be equal");
     }
@@ -88,9 +88,7 @@ export default function SignUp() {
   const handleClickShowPassword=()=>{
 setShowPassword(!showPassword);
   }
-  const handleMouseDownPassword = (e) => {
-    e.preventDefault();
-  };
+
  
   const SignUpUser = async (e) => {
     e.preventDefault();
@@ -111,17 +109,18 @@ setShowPassword(!showPassword);
 
  axios
       .post(baseUrl+"/signup", userObj)
-      .then((data) => {
+      .then((response) => {
+          console.log(response.data);
         setLoad(false)
-          if(data.status)
+          if(response.data.status)
           {
         alert("Data Sent!");
           }
           else 
           {
-              alert("Something wrong!");
+              alert(response.data.message);
           }
-        console.log(data);
+       // console.log(response);
       })
       .catch((err) => {
         console.log(err);

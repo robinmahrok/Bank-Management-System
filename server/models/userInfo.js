@@ -7,7 +7,28 @@ Name: {
 Email: {
     type: String
 },
+Contact: {
+    type: String
+},
+ZipCode: {
+    type: String
+},
 Password: {
+    type: String
+},
+FatherName: {
+    type: String
+},
+Country: {
+    type: String
+},
+State: {
+    type: String
+},
+City: {
+    type: String
+},
+Address: {
     type: String
 },
 Otp :

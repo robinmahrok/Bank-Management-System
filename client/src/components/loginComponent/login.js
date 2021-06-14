@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Spinner } from 'react-bootstrap';
 import {baseUrl} from '../../baseUrl'
+import {Link} from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -16,6 +17,8 @@ export default function Login() {
     e.preventDefault();
     setPassword(e.target.value);
   };
+
+
  
   const LoginUser = async (e) => {
     e.preventDefault();
@@ -74,7 +77,7 @@ export default function Login() {
             required
           />{" "}
           <br />
-         
+         <br/>
           <button style={{marginLeft:"20%"}} className="btn btn-success" onClick={LoginUser}>
       Login
       {load && <Spinner animation="border" variant="primary">
@@ -82,6 +85,17 @@ export default function Login() {
          
       </button>
         </form>
+        <br/>
+        <Link to="/forgotPassword">
+        <button style={{marginLeft:"20px"}} className="btn btn-primary">Forgot Password</button>
+      </Link>
+      <br/>
+        <br/>
+        <p>Not registered yet?
+        <Link to="/signUp">
+        <button style={{marginLeft:"20px"}} className="btn btn-primary">SignUp</button>
+      </Link>
+      </p>
         </div>
       </header>
     </div>

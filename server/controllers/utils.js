@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+var TOKEN_SECRET=require('../config/config');
+var jwt=require('jsonwebtoken');
 
 const convertObjectToString = (id) => {
   if (typeof id === "object") {
@@ -11,6 +13,29 @@ const convertObjectToString = (id) => {
 module.exports = {
   getFileExtension: filename => {
     return /[.]/.exec(filename) ? /[^.]+$/.exec(filename)[0] : undefined;
+  },
+
+   generateAccessToken(email) {
+    return jwt.sign(email, TOKEN_SECRET, { expiresIn: '900s' });
+  },
+
+  authenticateToken(auth)  {
+    //auth=req.headers['authorization']
+    const authHeader = auth
+    const token = authHeader && authHeader.split(' ')[1]
+  
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, TOKEN_SECRET.toString(), (err, user) => {
+      console.log(err)
+  
+      if (err) {
+        return null
+      }
+      else 
+      return user
+      
+    })
   },
 
   genOTP: (min, max) => {
