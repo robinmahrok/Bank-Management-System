@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-var TOKEN_SECRET=require('../config/config');
+var config=require('../config/config');
 var jwt=require('jsonwebtoken');
 
 const convertObjectToString = (id) => {
@@ -16,7 +16,7 @@ module.exports = {
   },
 
    generateAccessToken(email) {
-    return jwt.sign(email, TOKEN_SECRET, { expiresIn: '900s' });
+    return jwt.sign({email:email}, config.TOKEN_SECRET, {  expiresIn: 1800 });
   },
 
   authenticateToken(auth)  {
@@ -26,7 +26,7 @@ module.exports = {
   
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, TOKEN_SECRET.toString(), (err, user) => {
+    jwt.verify(token, config.TOKEN_SECRET, (err, user) => {
       console.log(err)
   
       if (err) {

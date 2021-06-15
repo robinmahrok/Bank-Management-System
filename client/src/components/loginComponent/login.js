@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Spinner } from 'react-bootstrap';
 import {baseUrl} from '../../baseUrl'
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  var history=useHistory();
+  const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [load, setLoad] = useState(false);
-  const handleOnChangeUserName = (e) => {
+  const handleOnChangeEmail = (e) => {
     e.preventDefault();
-    setUsername(e.target.value);
+    setEmail(e.target.value);
   };
   const handleOnChangePassword= (e) => {
     e.preventDefault();
@@ -25,18 +26,23 @@ export default function Login() {
     setLoad(true);
 
     await axios
-      .post(baseUrl+"/login", {username:username, password:password})
-      .then((data) => {
+      .post(baseUrl+"/login", {email:Email, password:password})
+      .then((response) => {
         setLoad(false)
-          if(data.status)
+          if(response.data.status)
           {
-        alert("Mail Sent!");
+        alert("Accepted!");
           }
-          else 
+          else if(response.data.message=="Otp not verified.")
           {
-              alert("Wrong credentials");
+              alert("Email not Verified. Verify your email first!");
+              sessionStorage.setItem('email',Email);
+              history.push('/otpVerify');
           }
-        console.log(data);
+          else {
+            alert(response.data.message);
+          }
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -55,13 +61,13 @@ export default function Login() {
         <form>
          <h2>Bank Management System</h2>
           <br></br>
-          <label>UserName : </label>
+          <label>Email : </label>
           <input style={{borderRadius:"7px"}}
             type="text"
-            placeholder="UserName"
-            name="username"
-            onChange={handleOnChangeUserName}
-            value={username}
+            placeholder="Email"
+            name="Email"
+            onChange={handleOnChangeEmail}
+            value={Email}
             required
           />{" "}
           <br />
