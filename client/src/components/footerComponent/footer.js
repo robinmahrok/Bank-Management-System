@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './header.css'
+import './footer.css'
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
 import { baseUrl } from "../../baseUrl";
@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Header() {
+
+
+
+export default function Footer() {
   let history = useHistory();
 
   const [email, setEmail] = useState("robinsinghmahrok@gmail.com");
@@ -69,40 +72,38 @@ export default function Header() {
 
   return (
     <div className="App">
-      
-        <link
-          rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossOrigin="anonymous"
-        />
-        <div >
-           <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <button className="btn btn-primary" onClick={handleOnChangeHome}>Home</button>
-        </li>
-        <li class="nav-item">
-        <button className="btn btn-primary" onClick={handleOnChangeBank}>Change Bank</button>
-        </li>
-        <li class="nav-item">
-        <button className="btn btn-primary" onClick={handleOnChangeAbout}>About Us</button>
-        </li>
-        <li class="nav-item">
-        <button className="btn btn-primary" onClick={handleOnChangeContact}>Contact Us</button>
-        </li>
-        <li class="nav-item" style={{alignContent:"right"}}>
-        <select class="blueText" onChange={handleOnChangeSelect}>
-     
-          <option value="email" selected disabled>{email}</option>
-          <option value="settings">Settings</option>
-          <option value="Logout">Log Out</option>
-     
-    </select>
-        </li>
-      </ul>
-    </nav>
-        </div>
+       
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></link>
+      <footer class="footer">
+  <div class="footer-left col-md-4 col-sm-6">
+    <p class="about">
+      <span> About the company</span> Ut congue augue non tellus bibendum, in varius tellus condimentum. In scelerisque nibh tortor, sed rhoncus odio condimentum in. Sed sed est ut sapien ultrices eleifend. Integer tellus est, vehicula eu lectus tincidunt,
+      ultricies feugiat leo. Suspendisse tellus elit, pharetra in hendrerit ut, aliquam quis augue. Nam ut nibh mollis, tristique ante sed, viverra massa.
+    </p>
+    <div class="icons">
+      <a href="#"><i class="fa fa-facebook"></i></a>&nbsp;
+      <a href="#"><i class="fa fa-twitter"></i></a>&nbsp;
+      <a href="#"><i class="fa fa-linkedin"></i></a>&nbsp;
+      <a href="#"><i class="fa fa-google-plus"></i></a>&nbsp;
+      <a href="#"><i class="fa fa-instagram"></i></a>
+    </div>
+  </div>
+  <div class="footer-center col-md-4 col-sm-6">
+  
+  </div>
+  <div class="footer-right col-md-4 col-sm-6">
+    <h2> Company<span> logo</span></h2>
+    <p class="menu">
+      <a href="#"> Home</a> |
+      <a href="#"> About</a> |
+      <a href="#"> Services</a> |
+      <a href="#"> Portfolio</a> |
+      <a href="#"> News</a> |
+      <a href="#"> Contact</a>
+    </p>
+    <p class="name"> Company Name &copy; 2016</p>
+  </div>
+</footer>
     </div>
   );
 }

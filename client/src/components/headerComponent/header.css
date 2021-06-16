@@ -1,0 +1,16 @@
+/* All select elements on page */
+select {
+    position: right;
+  }
+  
+  /* Style by class. Effects the text of the contained options. */
+  .blueText {
+    color: white;
+    background-color: #0275d8;
+    border-radius: 50px;
+    position:absolute;
+    top:15px;    
+    right:15px;
+  }
+  
+ 

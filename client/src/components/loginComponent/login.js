@@ -3,6 +3,9 @@ import axios from "axios";
 import { Spinner } from 'react-bootstrap';
 import {baseUrl} from '../../baseUrl'
 import {Link, useHistory} from 'react-router-dom';
+import Header from '../headerComponent/header'
+import Footer from '../footerComponent/footer'
+
 
 export default function Login() {
   var history=useHistory();
@@ -50,7 +53,9 @@ export default function Login() {
   };
   return (
     <div className="App">
-      <header className="App-header">
+      <Header></Header>
+      <div className="App-header">
+       
       <link
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -103,7 +108,9 @@ export default function Login() {
       </Link>
       </p>
         </div>
-      </header>
+      </div>
+      <Footer></Footer>
     </div>
+ 
   );
 }
