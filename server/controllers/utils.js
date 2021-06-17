@@ -16,7 +16,11 @@ module.exports = {
   },
 
    generateAccessToken(email) {
-    return jwt.sign({email:email}, config.TOKEN_SECRET, {  expiresIn: 1800 });
+    return jwt.sign({email:email}, config.TOKEN_SECRET, {  expiresIn: '1800s' });
+  },
+
+  destroyAccessToken(token) {
+    return jwt.destroy(token);
   },
 
   authenticateToken(auth)  {

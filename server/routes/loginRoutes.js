@@ -319,10 +319,13 @@ module.exports = function (router) {
       } else {
         var dbpass = data[0].Password;
         var otpver = data[0].OtpVerify;
+        var name = data[0].Name;
+
         utils.validatePassword(password, dbpass, function (err, data) {
           if (!err && data) {
             if (otpver == "Verified") {
-              const token = utils.generateAccessToken(email);
+              var nameEmail=name+","+email;
+              const token = utils.generateAccessToken(nameEmail);
               res.status(200).send({ status: true, message: token });
             } else {
               res.status(200).send({ status: false, message: "Otp not verified." });
@@ -336,6 +339,45 @@ module.exports = function (router) {
     });
   });
   //login api ends
+
+   // login api starts
+   router.post("/getDetails", (req, res) => {
+    var email = req.body.email
+
+    if (
+      req.body.email == null ||
+      typeof req.body.email == undefined ||
+      req.body.email.length == 0
+    ) {
+      res.status(200).send({ status: false, message: "Enter email" });
+    }
+
+    globalEmail = email;
+    var hashedpass = "";
+
+    userInfo.find({ Email: email }).then((data) => {
+      if (data.length == 0) {
+        res.status(200).send({ status: false, message: "User Not Found" });
+      } else {
+        var result={ 
+          name: data[0].Name,
+          email:data[0].Email,
+          FatherName:  data[0].FatherName,
+          Contact: data[0].Contact,
+          Country: data[0].Country,
+          State: data[0].State,
+          City: data[0].City,
+          Address: data[0].Address,
+          ZipCode: data[0].ZipCode,
+        }
+        console.log(result)
+        res.status(200).send({status:true, message:result})
+       
+      }
+    });
+  });
+  //login api ends
+
 
   router.get("/logout", (req, res) => {
     req.session.destroy((err) => {

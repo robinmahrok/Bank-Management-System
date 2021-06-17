@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './login.css'
 import { Spinner } from 'react-bootstrap';
 import {baseUrl} from '../../baseUrl'
 import {Link, useHistory} from 'react-router-dom';
@@ -34,7 +35,8 @@ export default function Login() {
         setLoad(false)
           if(response.data.status)
           {
-        alert("Accepted!");
+        localStorage.setItem('token',response.data.message);
+            history.push('/home');
           }
           else if(response.data.message=="Otp not verified.")
           {
@@ -53,8 +55,7 @@ export default function Login() {
   };
   return (
     <div className="App">
-      <Header></Header>
-      <div className="App-header">
+      <div className="App-header-login">
        
       <link
         rel="stylesheet"
@@ -109,7 +110,6 @@ export default function Login() {
       </p>
         </div>
       </div>
-      <Footer></Footer>
     </div>
  
   );

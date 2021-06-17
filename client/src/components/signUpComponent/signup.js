@@ -86,6 +86,10 @@ export default function SignUp() {
     setShowPassword(!showPassword);
   };
 
+  const loginUser = () => {
+    history.push("/")
+  };
+
   const SignUpUser = async (e) => {
     e.preventDefault();
     setLoad(true);
@@ -265,10 +269,22 @@ export default function SignUp() {
               className="btn btn-success"
               onClick={SignUpUser}
             >
-              Login
+              SignUp
               {load && <Spinner animation="border" variant="primary"></Spinner>}
             </button>
           </form>
+          <br/>
+          <br/>
+
+          <p> Already have an account?
+          <button
+              style={{ marginLeft: "20px" }}
+              className="btn btn-primary"
+              onClick={loginUser}
+            >
+            Login
+            </button>
+            </p>
         </div>
       </header>
     </div>

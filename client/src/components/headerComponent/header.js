@@ -1,23 +1,40 @@
 import React, { useState, useEffect } from "react";
 import './header.css'
 import axios from "axios";
-import { Spinner } from "react-bootstrap";
 import { baseUrl } from "../../baseUrl";
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Token from '../../utils/utils';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaUserCircle } from "react-icons/fa";
+
+
 
 export default function Header() {
   let history = useHistory();
 
-  const [email, setEmail] = useState("robinsinghmahrok@gmail.com");
-  const user = <FontAwesomeIcon icon={faUser} />;
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  //const user = <FontAwesomeIcon icon={} />;
 
-//   useEffect(() => {
-//  setEmail()
+
+  useEffect(() => {
+    if(localStorage.getItem('token'))
+    {
+       var token = localStorage.getItem('token')
+         var nameEmail= Token(token)
+        console.log(nameEmail)
+    
+         var name=nameEmail.split(',')[0];
+         var userId=nameEmail.split(',')[1];
+          setEmail(userId)
+          setName(name)
+    }
+    else {
+      history.push('/')
+    }
    
-//   });
+  });
 
   const handleOnChangeContact = (e) => {
     e.preventDefault();
@@ -34,6 +51,7 @@ export default function Header() {
     e.preventDefault();
     history.push('/about');
   };
+
 
   const handleOnChangeSelect = (e) => {
     e.preventDefault();
@@ -77,24 +95,25 @@ export default function Header() {
           crossOrigin="anonymous"
         />
         <div >
-           <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
+           <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+      <ul className="navbar-nav">
+        <li className="nav-item active">
           <button className="btn btn-primary" onClick={handleOnChangeHome}>Home</button>
         </li>
-        <li class="nav-item">
+        <li className="nav-item">
         <button className="btn btn-primary" onClick={handleOnChangeBank}>Change Bank</button>
         </li>
-        <li class="nav-item">
+        <li className="nav-item">
         <button className="btn btn-primary" onClick={handleOnChangeAbout}>About Us</button>
         </li>
-        <li class="nav-item">
+        <li className="nav-item">
         <button className="btn btn-primary" onClick={handleOnChangeContact}>Contact Us</button>
         </li>
-        <li class="nav-item" style={{alignContent:"right"}}>
-        <select class="blueText" onChange={handleOnChangeSelect}>
+        <li className="nav-item" style={{alignContent:"right"}}>
+        <select className="blueText" onChange={handleOnChangeSelect} required>
      
-          <option value="email" selected disabled>{email}</option>
+          <option value="" defaultValue hidden> {name} </option>
+
           <option value="settings">Settings</option>
           <option value="Logout">Log Out</option>
      
