@@ -1,7 +1,6 @@
 // let express = require("express");
 const userInfo = require("../models/userInfo");
 var { mailer } = require("../controllers/mailer");
-var { mailer2, mailer3, mailer4 } = require("../controllers/mailer");
 var utils = require("../controllers/utils");
 const { models } = require("mongoose");
 // router = express.Router();
@@ -9,7 +8,7 @@ var globalEmail = "";
 
 module.exports = function (router) {
   var error = "";
-  router.get("/",  (req, res) => {
+  router.get("/", (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         return console.log(err);
@@ -141,13 +140,11 @@ module.exports = function (router) {
               }
             });
           } else {
-            res
-              .status(200)
-              .send({
-                status: false,
-                message:
-                  "Password should contains atleast 6 characters consists of uppercase,lowercase,number and character",
-              });
+            res.status(200).send({
+              status: false,
+              message:
+                "Password should contains atleast 6 characters consists of uppercase,lowercase,number and character",
+            });
             //res.render('register-err-success',{success:0,message:"Password should contains atleast 6 characters consists of uppercase,lowercase,number and character"});
           }
         } else {
@@ -273,19 +270,15 @@ module.exports = function (router) {
             { Password: hashedpass },
             function (err, passwordUpdate) {
               if (err)
-                res
-                  .status(200)
-                  .send({
-                    status: false,
-                    message: "Unable to update User data",
-                  });
+                res.status(200).send({
+                  status: false,
+                  message: "Unable to update User data",
+                });
               else if (passwordUpdate.length != 0) {
-                res
-                  .status(200)
-                  .send({
-                    status: true,
-                    message: "Password Updated Successfully",
-                  });
+                res.status(200).send({
+                  status: true,
+                  message: "Password Updated Successfully",
+                });
               }
             }
           );
@@ -324,11 +317,13 @@ module.exports = function (router) {
         utils.validatePassword(password, dbpass, function (err, data) {
           if (!err && data) {
             if (otpver == "Verified") {
-              var nameEmail=name+","+email;
+              var nameEmail = name + "," + email;
               const token = utils.generateAccessToken(nameEmail);
               res.status(200).send({ status: true, message: token });
             } else {
-              res.status(200).send({ status: false, message: "Otp not verified." });
+              res
+                .status(200)
+                .send({ status: false, message: "Otp not verified." });
               // res.redirect('/otprevalid');
             }
           } else {
@@ -340,42 +335,35 @@ module.exports = function (router) {
   });
   //login api ends
 
-   // getDetails api starts
-   router.post("/getDetails", (req, res) => {
-    
-    var token=req.body.token
-    var auth=utils.authenticateToken(token);
-    if(auth!=false)
-    {
-    var email = auth.email.split(",")[1];
-  
+  // getDetails api starts
+  router.post("/getDetails", (req, res) => {
+    var token = req.body.token;
+    var auth = utils.authenticateToken(token);
+    if (auth != false) {
+      var email = auth.email.split(",")[1];
 
-    userInfo.find({ Email: email }).then((data) => {
-      if (data.length == 0) {
-        res.status(200).send({ status: false, message: "User Not Found" });
-      } else {
-        var result={ 
-          id:data[0]._id,
-          name: data[0].Name,
-          email:data[0].Email,
-          FatherName:  data[0].FatherName,
-          Contact: data[0].Contact,
-          Country: data[0].Country,
-          State: data[0].State,
-          City: data[0].City,
-          Address: data[0].Address,
-          ZipCode: data[0].ZipCode,
+      userInfo.find({ Email: email }).then((data) => {
+        if (data.length == 0) {
+          res.status(200).send({ status: false, message: "User Not Found" });
+        } else {
+          var result = {
+            id: data[0]._id,
+            name: data[0].Name,
+            email: data[0].Email,
+            FatherName: data[0].FatherName,
+            Contact: data[0].Contact,
+            Country: data[0].Country,
+            State: data[0].State,
+            City: data[0].City,
+            Address: data[0].Address,
+            ZipCode: data[0].ZipCode,
+          };
+          res.status(200).send({ status: true, message: result });
         }
-        res.status(200).send({status:true, message:result})
-       
-      }
-    });  
-  }
-  else
-  res.status(200).send({status:false, message:"Invalid Token"})
+      });
+    } else res.status(200).send({ status: false, message: "Invalid Token" });
   });
   //getDetails api ends
-
 
   router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
@@ -385,6 +373,4 @@ module.exports = function (router) {
       res.redirect("/");
     });
   });
-
-
 };

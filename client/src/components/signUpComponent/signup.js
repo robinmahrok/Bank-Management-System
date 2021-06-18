@@ -87,10 +87,10 @@ export default function SignUp() {
   };
 
   const loginUser = () => {
-    history.push("/")
+    history.push("/");
   };
 
-  const SignUpUser =  (e) => {
+  const SignUpUser = (e) => {
     e.preventDefault();
     setLoad(true);
 
@@ -273,18 +273,20 @@ export default function SignUp() {
               {load && <Spinner animation="border" variant="primary"></Spinner>}
             </button>
           </form>
-          <br/>
-          <br/>
+          <br />
+          <br />
 
-          <p> Already have an account?
-          <button
+          <p>
+            {" "}
+            Already have an account?
+            <button
               style={{ marginLeft: "20px" }}
               className="btn btn-primary"
               onClick={loginUser}
             >
-            Login
+              Login
             </button>
-            </p>
+          </p>
         </div>
       </header>
     </div>
