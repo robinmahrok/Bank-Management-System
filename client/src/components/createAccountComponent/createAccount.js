@@ -147,7 +147,6 @@ export default function CreateAccount() {
     e.preventDefault();
     setLoad(true);
     if (Email == verificationEmail) {
-      console.log(localStorage.getItem("token"));
       axios
         .post(baseUrl + "/getDetails", { token: localStorage.getItem("token") })
         .then((response) => {

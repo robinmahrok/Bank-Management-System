@@ -88,6 +88,7 @@ export default function DepositMoney() {
         setLoad(false);
         if (response.data.status) {
           alert("Your new Account Balance is: Rs." + response.data.message);
+          history.push('/home')
         } else {
           alert(response.data.message);
         }

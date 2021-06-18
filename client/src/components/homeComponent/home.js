@@ -31,7 +31,6 @@ export default function Home() {
     if (localStorage.getItem("token")) {
       var token = localStorage.getItem("token");
       var nameEmail = Token(token);
-      console.log(nameEmail);
 
       var name = nameEmail.split(",")[0];
       var userId = nameEmail.split(",")[1];
@@ -87,7 +86,6 @@ export default function Home() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -151,7 +149,6 @@ export default function Home() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

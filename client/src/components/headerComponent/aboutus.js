@@ -14,7 +14,6 @@ export default function AboutUs() {
     if (localStorage.getItem("token")) {
       var token = localStorage.getItem("token");
       var nameEmail = Token(token);
-      console.log(nameEmail);
 
       var name = nameEmail.split(",")[0];
       var userId = nameEmail.split(",")[1];

@@ -43,14 +43,17 @@ export default function AllAccounts() {
       .then((response) => {
         setLoad(false);
         if (response.data.status) {
+          if(response.data.message!=null)
+          {
           setData(response.data.message);
           console.log(response.data.message);
           setPrompt(1);
-
+          }
+          else setPrompt(0)
           //alert("Your Account Balance is: Rs."+response.data.message);
         } else {
           setPrompt(0);
-          alert(response.data.message);
+         
         }
         console.log(response.data);
       })

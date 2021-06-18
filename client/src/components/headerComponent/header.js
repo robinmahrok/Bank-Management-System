@@ -62,19 +62,7 @@ export default function Header() {
     if (e.target.value == "Logout") {
       localStorage.removeItem("token");
       history.push("/");
-      // axios
-      //   .post(baseUrl + "/logout", { email: email })
-      //   .then((response) => {
-      //     if (response.data.status) {
-
-      //     } else {
-      //       alert(response.data.message);
-      //     }
-      //     console.log(response.data);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+    
     }
   };
 

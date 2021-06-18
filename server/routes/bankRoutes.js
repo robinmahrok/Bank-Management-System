@@ -67,12 +67,14 @@ module.exports = function (router) {
       BankInfo.findOne(
         { Email: email, AccountNumber: account, Status: true },
         function (err, data) {
-          if (err)
+          if (err || data==null)
             res
               .status(200)
               .send({ status: false, message: "Wrong Account Number!" });
           else {
+         
             res.status(200).send({ status: true, message: data.Amount });
+            
           }
         }
       );
@@ -89,6 +91,7 @@ module.exports = function (router) {
         accountType = req.body.data.AccountType,
         amount = parseInt(req.body.data.Amount);
 
+        console.log(req.body.data)
       BankInfo.findOne(
         {
           Email: email,
@@ -103,6 +106,12 @@ module.exports = function (router) {
               .status(200)
               .send({ status: false, message: "Wrong Account Number!" });
           else {
+            if (value==null)
+           { res
+              .status(200)
+              .send({ status: false, message: "Wrong Account Number!" });
+           }
+           else {
             amount = parseInt(value.Amount) + parseInt(amount);
             BankInfo.findOneAndUpdate(
               {
@@ -117,6 +126,7 @@ module.exports = function (router) {
                 res.status(200).send({ status: true, message: amount });
               }
             );
+           }
           }
         }
       );
@@ -144,7 +154,7 @@ module.exports = function (router) {
           Status: true,
         },
         function (err, value) {
-          if (err)
+          if (err || value==null)
             res
               .status(200)
               .send({ status: false, message: "Wrong Account Number!" });
@@ -161,7 +171,7 @@ module.exports = function (router) {
                 },
                 { Amount: myAmount },
                 function (err, data) {
-                  if (!err) {
+                  if (!err && data!=null) {
                     BankInfo.findOne(
                       {
                         Bank: benBank,
@@ -230,7 +240,7 @@ module.exports = function (router) {
         password = req.body.password,
         amount = parseInt(req.body.Amount);
       userInfo.findOne({ Email: email }, function (err, data) {
-        if (!err) {
+        if (!err && data) {
           var pass = data.Password;
           utils.validatePassword(password, pass, function (err, data) {
             if (!err && data) {
@@ -243,7 +253,7 @@ module.exports = function (router) {
                   Status: true,
                 },
                 function (err, value) {
-                  if (err)
+                  if (err || value==null)
                     res
                       .status(200)
                       .send({
@@ -297,7 +307,7 @@ module.exports = function (router) {
         { Email: email, AccountNumber: account, Status: true },
         { Status: false },
         function (err, data) {
-          if (err)
+          if (err || data==null)
             res
               .status(200)
               .send({ status: false, message: "Wrong Account Number!" });
@@ -320,10 +330,10 @@ module.exports = function (router) {
         { Email: email, Status: true },
         { Amount: 0, Status: 0, UserId: 0, _id: 0, Email: 0, Name: 0 },
         function (err, data) {
-          if (err)
+          if (err || data.length<1)
             res
               .status(200)
-              .send({ status: false, message: "Wrong Account Number!" });
+              .send({ status: false, message: "No Accounts found" });
           else {
             res.status(200).send({ status: true, message: data });
           }

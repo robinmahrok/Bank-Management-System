@@ -49,7 +49,6 @@ export default function OtpVerify() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -78,9 +77,7 @@ export default function OtpVerify() {
 
   const handleOnChangeOTP = (e) => {
     e.preventDefault();
-    console.log("verified " + verify + " " + Enteredotp + " =>" + otp);
     if (Enteredotp == otp) {
-      console.log("verified " + verify);
       alert("OTP verified");
 
       setVerify(true);
@@ -104,7 +101,6 @@ export default function OtpVerify() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
