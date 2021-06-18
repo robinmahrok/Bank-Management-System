@@ -1,7 +1,9 @@
 const userInfo = require('./userInfo');
-const ShopOwner = require('./ShopOwner');
+const BankInfo = require('./bank');
+
 
 module.exports = {
     userInfo ,
-    ShopOwner
+    BankInfo,
+
 };

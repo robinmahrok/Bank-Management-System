@@ -36,7 +36,6 @@ export default function CreateAccount() {
   const [address, setAddress] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [password, setPassword] = useState("");
-
   const [load, setLoad] = useState(false);
   const eye = <FontAwesomeIcon icon={faEye} />;
   const eyeSlash = <FontAwesomeIcon icon={faEyeSlash} />;
@@ -117,16 +116,18 @@ export default function CreateAccount() {
   const handleOnChangeYesCreateAccount= (e) => {
 
     setPrompt(false)
-
-    axios.post(baseUrl+"/createAccount",{userData,email:Email} )
+var bankDetails={
+  bankName:Bank,
+  accountType:accountType
+}
+    axios.post(baseUrl+"/createAccount",{userData,bankDetails,token:localStorage.getItem("token")} )
       .then((response) => {
         setLoad(false)
 
           if(response.data.status)
           {
-            setaccountNo(response.data.message);
-       // alert("Your details are:"+response.data.message);
-        
+            alert("Your account Number is: "+response.data.message);
+            history.push("/home")
           }
           
           else {
@@ -176,15 +177,15 @@ export default function CreateAccount() {
     setLoad(true);
     if(Email==verificationEmail)
     {
-  axios.post(baseUrl+"/getDetails", {email:Email})
+      console.log(localStorage.getItem("token"));
+  axios.post(baseUrl+"/getDetails", {token:localStorage.getItem("token")})
       .then((response) => {
         setLoad(false)
 
           if(response.data.status)
           {
+            setgetDetails(false);
             setUserData(response.data.message);
-       // alert("Your details are:"+response.data.message);
-        console.log(response.data.message.name)
         setName(response.data.message.name);
         setfatherName(response.data.message.FatherName);
         setContact(response.data.message.Contact);
@@ -229,11 +230,11 @@ export default function CreateAccount() {
           <select className="blue" onChange={handleOnChangeBank} required>
      
      <option value="" hidden defaultValue >[Please select any one]</option>
-     <option value="hdfc">HDFC Bank</option>
-     <option value="sbi">State Bank of India</option>
-     <option value="icici">ICICI Bank</option>
-     <option value="axis">AXIS Bank</option>
-     <option value="bob">Bank of Baroda</option>
+     <option value="HDFC">HDFC Bank</option>
+     <option value="SBI">State Bank of India</option>
+     <option value="ICICI">ICICI Bank</option>
+     <option value="AXIS">AXIS Bank</option>
+     <option value="BOB">Bank of Baroda</option>
 
 </select>
           <br />
@@ -243,9 +244,9 @@ export default function CreateAccount() {
       <label>Account Type :&nbsp;</label>
     <select className="blue" onChange={handleOnChangeAccountType} required>
      <option value="" hidden defaultValue >[Please select any one]</option>
-     <option value="current">Current Account</option>
-     <option value="savings">Savings Account</option>
-     <option value="salaried">Salaried Account</option>
+     <option value="Current">Current Account</option>
+     <option value="Savings">Savings Account</option>
+     <option value="Salaried">Salaried Account</option>
      </select>
      <br/>
      <br/>
@@ -378,10 +379,10 @@ export default function CreateAccount() {
         </Modal.Header>
         <Modal.Body>Are you sure you want to create your account?</Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-secondary" onClick={handleOnChangeYesCreateAccount}>
+          <button className="btn btn-secondary" onClick={handleOnChangeNoCreateAccount}>
             No
           </button>
-          <button className="btn btn-primary" onClick={handleOnChangeNoCreateAccount}>
+          <button className="btn btn-primary" onClick={handleOnChangeYesCreateAccount}>
             Create Account
           </button>
         </Modal.Footer>

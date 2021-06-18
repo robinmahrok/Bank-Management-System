@@ -90,7 +90,7 @@ export default function SignUp() {
     history.push("/")
   };
 
-  const SignUpUser = async (e) => {
+  const SignUpUser =  (e) => {
     e.preventDefault();
     setLoad(true);
 

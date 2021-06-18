@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import './footer.css'
 import axios from "axios";
 import { baseUrl } from "../../baseUrl";
@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Token from '../../utils/utils';
 
 
 
@@ -13,54 +14,40 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default function Footer() {
   let history = useHistory();
 
-  const [email, setEmail] = useState("robinsinghmahrok@gmail.com");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const user = <FontAwesomeIcon icon={faUser} />;
 
-//   useEffect(() => {
-//  setEmail()
+  useEffect(() => {
+    if(localStorage.getItem('token'))
+    {
+       var token = localStorage.getItem('token')
+         var nameEmail= Token(token)
+    
+         var name=nameEmail.split(',')[0];
+         var userId=nameEmail.split(',')[1];
+          setEmail(userId)
+          setName(name)
+    }
+    else {
+      history.push('/')
+    }
    
-//   });
+  });
 
   const handleOnChangeContact = (e) => {
     e.preventDefault();
-    history.push('/contact');
+    history.push('/ContactUs');
 
   };
-  const handleOnChangeBank = (e) => {
-    e.preventDefault();
-    history.push('/changeBank');
 
-  };
 
   const handleOnChangeAbout = (e) => {
     e.preventDefault();
-    history.push('/about');
+    history.push('/aboutUs');
   };
 
-  const handleOnChangeSelect = (e) => {
-    e.preventDefault();
-
-  if(e.target.value=="logout")
-{
-    axios
-      .post(baseUrl + "/logout", { email: email })
-      .then((response) => {
-        if (response.data.status) {
-        
-        } else {
-          alert(response.data.message);
-        }
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-    else if( e.target.value=="settings")
-    {
-      history.push('/settings');
-    }
-  };
+  
 
   const handleOnChangeHome = (e) => {
      e.preventDefault();
@@ -76,8 +63,7 @@ export default function Footer() {
       <footer className="footer">
   <div className="footer-left col-md-4 col-sm-6">
     <p className="about">
-      <span> About the company</span>
-
+      <span>Bank Management System</span>
     </p>
     <div className="icons">
       <a href="#"><i className="fa fa-facebook"></i></a>&nbsp;&nbsp;

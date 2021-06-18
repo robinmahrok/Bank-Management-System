@@ -26,20 +26,9 @@ module.exports = {
   authenticateToken(auth)  {
     //auth=req.headers['authorization']
     const authHeader = auth
-    const token = authHeader && authHeader.split(' ')[1]
-  
-    if (token == null) return res.sendStatus(401)
-  
-    jwt.verify(token, config.TOKEN_SECRET, (err, user) => {
-      console.log(err)
-  
-      if (err) {
-        return null
-      }
-      else 
-      return user
-      
-    })
+    
+  const user=jwt.verify(authHeader, config.TOKEN_SECRET)
+  return user;
   },
 
   genOTP: (min, max) => {

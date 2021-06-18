@@ -9,7 +9,7 @@ var globalEmail = "";
 
 module.exports = function (router) {
   var error = "";
-  router.get("/", async (req, res) => {
+  router.get("/",  (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         return console.log(err);
@@ -340,26 +340,22 @@ module.exports = function (router) {
   });
   //login api ends
 
-   // login api starts
+   // getDetails api starts
    router.post("/getDetails", (req, res) => {
-    var email = req.body.email
-
-    if (
-      req.body.email == null ||
-      typeof req.body.email == undefined ||
-      req.body.email.length == 0
-    ) {
-      res.status(200).send({ status: false, message: "Enter email" });
-    }
-
-    globalEmail = email;
-    var hashedpass = "";
+    
+    var token=req.body.token
+    var auth=utils.authenticateToken(token);
+    if(auth!=false)
+    {
+    var email = auth.email.split(",")[1];
+  
 
     userInfo.find({ Email: email }).then((data) => {
       if (data.length == 0) {
         res.status(200).send({ status: false, message: "User Not Found" });
       } else {
         var result={ 
+          id:data[0]._id,
           name: data[0].Name,
           email:data[0].Email,
           FatherName:  data[0].FatherName,
@@ -370,13 +366,15 @@ module.exports = function (router) {
           Address: data[0].Address,
           ZipCode: data[0].ZipCode,
         }
-        console.log(result)
         res.status(200).send({status:true, message:result})
        
       }
-    });
+    });  
+  }
+  else
+  res.status(200).send({status:false, message:"Invalid Token"})
   });
-  //login api ends
+  //getDetails api ends
 
 
   router.get("/logout", (req, res) => {
@@ -388,36 +386,5 @@ module.exports = function (router) {
     });
   });
 
-  router.get("/redirectShop", (req, res) => {
-    res.render("indexShopkeeper");
-  });
 
-  router.post("/selectRestraw", (req, res) => {
-    if (req.session.email1) {
-      req.session.rest = req.body.rest;
-      if (req.session.rest == "Food Court") {
-        res.redirect("/foodcourt");
-      } else {
-        res.redirect("/barons");
-      }
-    } else {
-      res.write(
-        "<h1>Your session is expired. Please login again to continue.</h1>"
-      );
-      res.end("<a href=" + "/" + ">Login</a>");
-    }
-  });
-
-  //generate order number api
-
-  function f() {
-    var text = "";
-    var char_list =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 10; i++) {
-      text += char_list.charAt(Math.floor(Math.random() * char_list.length));
-    }
-    return text;
-  }
 };

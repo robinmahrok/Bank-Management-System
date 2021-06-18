@@ -1,26 +1,27 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
-import './home.css';
+import './Withdraw.css';
 import { Spinner,Modal } from 'react-bootstrap';
-import {baseUrl} from '../../baseUrl'
-import {Link, useHistory} from 'react-router-dom';
-import Header from '../headerComponent/header'
-import Footer from '../footerComponent/footer'
+import {baseUrl} from '../../../baseUrl'
+import { useHistory} from 'react-router-dom';
+import Header from '../../headerComponent/header'
+import Footer from '../../footerComponent/footer'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import Token from '../../utils/utils';
+import Token from '../../../utils/utils';
 
-export default function Home() {
+export default function DepositMoney() {
   var history=useHistory();
   const [Bank, setBank] = useState("");
   const [Email, setEmail] = useState("");
   const [Name, setName] = useState("");
   const [prompt, setPrompt] = useState(false);
   const [accountType, setAccountType] = useState("");
+  const [password, setPassword] = useState("");
   const [accountNo, setaccountNo] = useState("");
-  
-  const [account, setAccount] = useState(-1);
+
+  const [amount, setAmount] = useState();
   const [showPassword, setShowPassword] = useState(false);
 
   const [load, setLoad] = useState(false);
@@ -52,24 +53,34 @@ export default function Home() {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  const handleOnChangePassword = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value)
+  };
   const handleOnChangeBank = (e) => {
     e.preventDefault();
     setBank(e.target.value);
   };
   const handleOnChangeAccount= (e) => {
     e.preventDefault();
+   
     setaccountNo(e.target.value);
   };
 
-  const DeleteAccount= (e) => {
+  const handleOnChangeWithdrawMoney= (e) => {
     e.preventDefault();
 if(accountNo=="")
 {
   alert("Please enter your Account Number");
 }
 else{
-if(CheckAccountNumber(accountNo)==true)
+if(CheckAccountNumber()==true)
+{ if(amount>0)
   setPrompt(true);
+  else 
+alert("Please enter a valid amount!")
+
+}
 else
 alert("Please enter a valid account number")
 
@@ -77,57 +88,50 @@ alert("Please enter a valid account number")
    
   };
 
-  const handleOnChangeYesDeleteAccount= (e) => {
-   // e.preventDefault();
-
+  const handleOnChangeYesWithdrawMoney= (e) => {
+e.preventDefault();
    setPrompt(false)
-    CheckAccountNumber();
+  
     setLoad(true);
-   
-    var data={
-      bank:Bank,
-      accountType:accountType,
-      accountNo:accountNo,
-      token:localStorage.getItem("token")
-    }
-
-   axios
-      .post(baseUrl+"/deleteAccount", data)
+   var data={
+    AccountNumber:accountNo,
+    Amount:amount,
+    Bank:Bank,
+    AccountType:accountType,
+    password:password,
+    token:localStorage.getItem("token")
+   }
+   axios.post(baseUrl+"/withdrawMoney", data)
       .then((response) => {
         setLoad(false)
           if(response.data.status)
           {
-        alert(response.data.message);
+        alert("Your new Account Balance is: Rs."+response.data.message);
+        history.push("/home")
           }
           else {
             alert(response.data.message);
           }
-        console.log(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
+    // }
+    // else alert("Enter a valid Account Number!")
    
   };
-
-  const handleOnChangeNoDeleteAccount= (e) => {
-
+  const handleOnChangeNoWithdrawMoney= (e) => {
+e.preventDefault();
     setPrompt(false)
     
    };
+
  
 
-  const handleOnChangeAccountPresent= (e) => {
+  const handleOnChangeAmount= (e) => {
     e.preventDefault();
-    if(e.target.value=="yes")
-    setAccount(1);
-    else 
-    setAccount(0);
-  };
-
-  const handleOnChangeCreateAccount= (e) => {
-   // e.preventDefault();
-    history.push('/createAccount')
+    setAmount(e.target.value);
+   
   };
 
   const handleOnChangeAccountType= (e) => {
@@ -136,57 +140,18 @@ alert("Please enter a valid account number")
    
   };
 
-  const DepositMoney= (e) => {
-    e.preventDefault();
-    history.push('/depositMoney')
-   
-  };
-
-  const TransferMoney= (e) => {
-    e.preventDefault();
-    history.push('/transfer')
-    
-   
-  };
-  const WithdrawMoney= (e) => {
-    e.preventDefault();
-    history.push('/withdraw')
-    
-   
-  };
 
 
-  const CheckAccountNumber= (acc) => {
+  const CheckAccountNumber= () => {
     var reg = new RegExp('^[0-9]+$');
-    if(reg.test(acc))
+    if(reg.test(accountNo))
     return true;
     else 
     return false;
    
   };
  
-  const CheckBalance =  (e) => {
-    e.preventDefault();
-    CheckAccountNumber();
-    setLoad(true);
-   
-   axios
-      .post(baseUrl+"/checkBalance", {accountNo:accountNo,token:localStorage.getItem("token")})
-      .then((response) => {
-        setLoad(false)
-          if(response.data.status)
-          {
-        alert("Your Account Balance is: Rs."+response.data.message);
-          }
-          else {
-            alert(response.data.message);
-          }
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   return (
     <div className="App">
       <Header></Header>
@@ -200,36 +165,19 @@ alert("Please enter a valid account number")
       />
       <div>
         <form>
-         <h2>{Name}</h2>
-        
-
-      <div>
-      <br/> 
-      <label>Already a customer? &nbsp;</label>
-          <select class="blue" onChange={handleOnChangeAccountPresent} required>
-     
-     <option value="none" hidden selected disabled>[Please select any one]</option>
-     <option value="yes">YES</option>
-     <option value="no">No</option>
-     </select>
-     <br/>
-     <br/>
-     </div>
-
-     
-
-      {account==1 &&
+         <h2>Withdraw Amount</h2>
+    
           <div>
             
           <label>Select Your Bank : </label> &nbsp;
           <select class="blue" onChange={handleOnChangeBank} required>
      
      <option value="" hidden selected disabled>[Please select any one]</option>
-     <option value="hdfc">HDFC Bank</option>
-     <option value="sbi">State Bank of India</option>
-     <option value="icici">ICICI Bank</option>
-     <option value="axis">AXIS Bank</option>
-     <option value="bob">Bank of Baroda</option>
+     <option value="HDFC">HDFC Bank</option>
+     <option value="SBI">State Bank of India</option>
+     <option value="ICICI">ICICI Bank</option>
+     <option value="AXIS">AXIS Bank</option>
+     <option value="BOB">Bank of Baroda</option>
 
 </select>
           <br />
@@ -258,56 +206,52 @@ alert("Please enter a valid account number")
         </i>
           <br />
          <br/>
-          <button style={{marginLeft:"20%"}} className="btn btn-primary" onClick={CheckBalance}>
-      Check Balance
+         <label>Enter Amount : </label>
+         <input type="number"  style={{borderRadius:"7px"}}
+            placeholder="Amount"
+            onChange={handleOnChangeAmount}
+            value={amount}
+            name="amount"
+            required
+          />{" "} 
+         <br />
+         <br/>
+          
+         <label>Enter Your Password : </label>
+         <input type="password"  style={{borderRadius:"7px"}}
+            placeholder="Password"
+            onChange={handleOnChangePassword}
+            value={password}
+            required
+          />{" "} 
+         <br />
+         <br/>
+
+<button style={{marginLeft:"20%"}} className="btn btn-secondary" onClick={handleOnChangeWithdrawMoney}>
+      Withdraw Money
       {load && <Spinner animation="border" variant="primary">
         </Spinner>}
       </button>
-<br/>
-<br/>
-<button style={{marginLeft:"20%"}} className="btn btn-success" onClick={DepositMoney}>
-      Deposit Money
-      </button>
-      <br/><br/>
-      <button style={{marginLeft:"20%"}} className="btn btn-warning" onClick={TransferMoney}>
-      Transfer Money
-      </button>
-       <br/><br/>
+     
  
-      <button style={{marginLeft:"20%"}} className="btn btn-info" onClick={WithdrawMoney}>
-      Withdraw Money
-      </button>
-      <br/><br/>
-      <button style={{marginLeft:"20%"}} className="btn btn-danger" onClick={DeleteAccount}>
-      Delete Account
-      </button>
-     
-     
     </div>
-    }
-     {
-       account==0 && <div> 
-        <button style={{marginLeft:"20px"}} className="btn btn-primary" onClick={handleOnChangeCreateAccount}>Create Account</button>
-        
-      </div>
-    }
       </form>
         </div>
       </div>
       <Footer></Footer>
 
  {prompt &&
-      <Modal show={prompt} onHide={handleOnChangeNoDeleteAccount}>
+      <Modal show={prompt} onHide={handleOnChangeNoWithdrawMoney}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete account</Modal.Title>
+          <Modal.Title>Withdraw Amount</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete your account?</Modal.Body>
+        <Modal.Body>Are you sure you want to Withdraw Rs.{amount} in your account?</Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-secondary" onClick={handleOnChangeNoDeleteAccount}>
+          <button className="btn btn-secondary" onClick={handleOnChangeNoWithdrawMoney}>
             No
           </button>
-          <button className="btn btn-primary" onClick={handleOnChangeYesDeleteAccount}>
-            Delete Account
+          <button className="btn btn-primary" onClick={handleOnChangeYesWithdrawMoney}>
+            Withdraw
           </button>
         </Modal.Footer>
       </Modal>

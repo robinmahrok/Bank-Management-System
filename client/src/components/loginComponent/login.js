@@ -25,11 +25,11 @@ export default function Login() {
 
 
  
-  const LoginUser = async (e) => {
+  const LoginUser = (e) => {
     e.preventDefault();
     setLoad(true);
 
-    await axios
+     axios
       .post(baseUrl+"/login", {email:Email, password:password})
       .then((response) => {
         setLoad(false)
