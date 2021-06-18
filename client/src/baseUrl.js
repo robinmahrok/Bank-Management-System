@@ -1,1 +1,1 @@
-module.exports = { baseUrl: "http://localhost:3005" };
+module.exports = { baseUrl: "https://digital-bank-management-system.herokuapp.com" };
