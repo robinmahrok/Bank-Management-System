@@ -9,11 +9,7 @@ var globalEmail = "";
 module.exports = function (router) {
   var error = "";
   router.get("/", (req, res) => {
-    req.session.destroy((err) => {
-      if (err) {
-        return console.log(err);
-      } else res.render("index", { error });
-    });
+    res.status(200).send({message:"Working"})
   });
 
   //signup api
