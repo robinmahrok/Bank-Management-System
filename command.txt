@@ -1,0 +1,3 @@
+git subtree push --prefix server origin heroku
+url: https://digital-bank-management-system.herokuapp.com/
+frontend url : https://bank-management.netlify.app/
