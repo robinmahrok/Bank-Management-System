@@ -28,4 +28,6 @@ app.use(bodyParser.json({ limit: "50mb", extended: true }));
 Mongoose.connection;
 routes(app);
 
-app.listen(process.env.PORT || 3005);
+app.listen(process.env.PORT || 3005, ()=>{
+  console.log("server running...")
+});
