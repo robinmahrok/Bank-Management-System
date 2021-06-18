@@ -110,7 +110,7 @@ module.exports = function (router) {
                   ZipCode: zip,
                   Password: hashedpass,
                   OtpVerify: "Pending",
-                  Otp: otpVal,
+                  Otp: 0,
                 });
                 if (userInfo.create())
                   res
