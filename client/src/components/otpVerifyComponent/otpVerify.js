@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './otpVerify.css'
 import { Spinner } from "react-bootstrap";
 import { baseUrl } from "../../baseUrl";
 import { useHistory } from "react-router-dom";
@@ -80,7 +81,7 @@ export default function OtpVerify() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header-login">
         <link
           rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
