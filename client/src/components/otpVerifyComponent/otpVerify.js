@@ -19,7 +19,6 @@ export default function OtpVerify() {
     e.preventDefault();
 
     setLoad(true);
-    console.log(email);
     axios
       .post(baseUrl + "/sendOtp", { email: email })
       .then((response) => {
@@ -31,7 +30,6 @@ export default function OtpVerify() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -56,7 +54,6 @@ export default function OtpVerify() {
   const handleOnChangeOTP = (e) => {
     e.preventDefault();
     setLoad2(true);
-    console.log("verified " + verify + " " + Enteredotp + " =>" + otp);
     if (Enteredotp == otp) {
       axios
         .post(baseUrl + "/otpVerify", { email: email })
@@ -71,7 +68,6 @@ export default function OtpVerify() {
           } else {
             alert(response.data.message);
           }
-          console.log(response.data);
         })
         .catch((err) => {
           console.log(err);

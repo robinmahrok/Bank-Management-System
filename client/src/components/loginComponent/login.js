@@ -38,7 +38,6 @@ export default function Login() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

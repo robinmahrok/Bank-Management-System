@@ -91,7 +91,6 @@ module.exports = function (router) {
         accountType = req.body.data.AccountType,
         amount = parseInt(req.body.data.Amount);
 
-        console.log(req.body.data)
       BankInfo.findOne(
         {
           Email: email,

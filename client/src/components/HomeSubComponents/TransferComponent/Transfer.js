@@ -33,7 +33,6 @@ export default function Transfer() {
     if (localStorage.getItem("token")) {
       var token = localStorage.getItem("token");
       var nameEmail = Token(token);
-      console.log(nameEmail);
 
       var name = nameEmail.split(",")[0];
       var userId = nameEmail.split(",")[1];
@@ -135,7 +134,6 @@ export default function Transfer() {
         } else {
           alert(response.data.message);
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

@@ -24,7 +24,6 @@ export default function AllAccounts() {
     if (localStorage.getItem("token")) {
       var token = localStorage.getItem("token");
       var nameEmail = Token(token);
-      console.log(nameEmail);
 
       var name = nameEmail.split(",")[0];
       var userId = nameEmail.split(",")[1];
@@ -46,7 +45,6 @@ export default function AllAccounts() {
           if(response.data.message!=null)
           {
           setData(response.data.message);
-          console.log(response.data.message);
           setPrompt(1);
           }
           else setPrompt(0)
@@ -55,7 +53,6 @@ export default function AllAccounts() {
           setPrompt(0);
          
         }
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

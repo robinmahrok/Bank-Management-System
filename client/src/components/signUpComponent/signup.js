@@ -110,7 +110,6 @@ export default function SignUp() {
     axios
       .post(baseUrl + "/signup", userObj)
       .then((response) => {
-        console.log(response.data);
         setLoad(false);
         if (response.data.status) {
           sessionStorage.setItem("email", email);
@@ -119,7 +118,6 @@ export default function SignUp() {
         } else {
           alert(response.data.message);
         }
-        // console.log(response);
       })
       .catch((err) => {
         console.log(err);
