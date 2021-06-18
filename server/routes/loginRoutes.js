@@ -95,20 +95,7 @@ module.exports = function (router) {
               if (!err && hash) {
                 hashedpass = hash;
 
-                function genOTP(min, max) {
-                  return Math.floor(min + Math.random() * max);
-                }
-
-                var otpVal = genOTP(100000, 900000);
-
-                sendOTP(email, otpVal, (err, updatedUser) => {
-                  if (err) {
-                    res.status(400).send({
-                      status: false,
-                      message: err,
-                    });
-                  }
-                });
+               
 
                 //sending data in database
                 userInfo.create({
